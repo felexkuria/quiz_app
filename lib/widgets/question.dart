@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Question extends StatelessWidget {
   final String question;
@@ -7,17 +7,14 @@ class Question extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return    Container(
+    return Container(
       margin: EdgeInsets.all(10),
       width: double.infinity,
       child: Text(
         question,
         textAlign: TextAlign.center,
-        style: TextStyle(
-            fontWeight: FontWeight.bold,
-
-            fontSize: 20.0,
-            color: Colors.black),
+        style: GoogleFonts.lato(
+            fontWeight: FontWeight.bold, fontSize: 24.0, color: Colors.black),
       ),
     );
   }

@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:quiz_app/widgets/answer.dart';
-import 'package:quiz_app/widgets/question.dart';
+import 'package:quiz_app/data/questions.dart';
+import 'package:quiz_app/model/quiz_questions.dart';
+import 'package:quiz_app/screens/result_screen.dart';
 import 'package:quiz_app/widgets/quiz.dart';
 import 'package:quiz_app/widgets/result.dart';
 
@@ -11,43 +12,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Map<String, dynamic>> questions = const [
-    {
-      "questionText": "What'\s you Favourite color?",
-      "answerText": [
-        {"text": "Red", "score": 20},
-        {"text": "Black", "score": 5},
-        {"text": "Yellow", "score": 2},
-        {"text": "Green", "score": 15}
-      ]
-    },
-    {
-      "questionText": "What'\s you Favourite Animal?",
-      "answerText": [
-        {"text": "Hare ", "score": 10},
-        {"text": "Lion ", "score": 30},
-        {"text": "Leopard ", "score": 15},
-        {"text": "Zebra", "score": 20},
-      ]
-    },
-    {
-      "questionText": "When is Your Shift ?",
-      "answerText": [
-        {"text": "Monday", "score": 1},
-        {"text": "Tuesday", "score": 1},
-        {"text": "Wednesday ", "score": 1},
-        {"text": "Thursday", "score": 1},
-      ]
-    },
-  ];
+  final List<QuizQuestion> questions = dummyQuestions;
   var _selectedIndex = 0;
-  var _score=0;
-  void answerQuestion( int score) {
-_score+=score;
-      setState(() {
-        _selectedIndex++;
-      });
+  final List<String> selectedAnswers = [];
+  var _score = 0;
+  void answerQuestion(String answer) {
+    //  _score += score;
+    setState(() {
+      _selectedIndex++;
+    });
+    chooseAnswer(answer);
+  }
 
+  void chooseAnswer(String answer) {
+    selectedAnswers.add(answer);
   }
 
   @override
@@ -66,16 +44,35 @@ _score+=score;
           ),
           title: Text("Quiz App"),
         ),
-        body: _selectedIndex < questions.length
-            ? Quiz(
-                questions: questions,
-                selectedIndex: _selectedIndex,
-                answerQuestion: () {
-answerQuestion(_score);
-print(_score);
-                },
-              )
-            : Result(),
+        body: LayoutBuilder(builder: (context, constraints) {
+          return Center(
+            child: Container(
+                width: constraints.maxWidth > 600
+                    ? 600
+                    : constraints.maxWidth * 0.95,
+                child: _selectedIndex < questions.length
+                    ? Quiz(
+                        questions: questions,
+                        selectedIndex: _selectedIndex,
+                        answerQuestion: answerQuestion,
+                      )
+                    : ResultScreen(
+                        choosenAnswer: selectedAnswers,
+                      )
+                // : Result(
+                //     questions: questions,
+                //     userAnswers: selectedAnswers,
+                //     onRestart: () {
+                //       setState(() {
+                //         _selectedIndex = 0;
+                //         selectedAnswers.clear();
+                //         _score = 0;
+                //       });
+                //     },
+                //   ),
+                ),
+          );
+        }),
       ),
     );
   }

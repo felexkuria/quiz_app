@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:quiz_app/widgets/answer.dart';
 import 'package:quiz_app/widgets/question.dart';
 
+import '../model/quiz_questions.dart';
+
 class Quiz extends StatelessWidget {
-  final List<Map<String, dynamic>> questions;
-  final Function answerQuestion;
+  final List<QuizQuestion> questions;
+  final void Function(String selectedAnswer) answerQuestion;
   final int selectedIndex;
   const Quiz(
       {Key? key,
@@ -18,14 +20,17 @@ class Quiz extends StatelessWidget {
     return Column(
       children: [
         Question(
-          question: questions[selectedIndex]["questionText"],
+          question: questions[selectedIndex].questionText,
         ),
-        ...questions[selectedIndex]["answerText"].map((answer) {
+        ...questions[selectedIndex].answerText.map((answer) {
           return Answer(
             selectedHandler: () {
-              return answerQuestion();
+              answerQuestion(answer);
+
+              print(answer);
             },
-            answer: answer["text"], score: answer["score"].toString(),
+            answer: answer,
+            score: answer.toString(),
           );
         }).toList(),
       ],
