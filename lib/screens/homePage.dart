@@ -24,6 +24,14 @@ class _HomePageState extends State<HomePage> {
     chooseAnswer(answer);
   }
 
+  onRestart() {
+    setState(() {
+      _selectedIndex = 0;
+      selectedAnswers.clear();
+      _score = 0;
+    });
+  }
+
   void chooseAnswer(String answer) {
     selectedAnswers.add(answer);
   }
@@ -58,6 +66,7 @@ class _HomePageState extends State<HomePage> {
                       )
                     : ResultScreen(
                         choosenAnswer: selectedAnswers,
+                        onRestart: onRestart,
                       )
                 // : Result(
                 //     questions: questions,
