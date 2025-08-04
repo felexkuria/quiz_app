@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz_app/data/questions.dart';
 import 'package:quiz_app/model/quiz_questions.dart';
 import 'package:quiz_app/screens/result_screen.dart';
 import 'package:quiz_app/widgets/quiz.dart';
-import 'package:quiz_app/widgets/result.dart';
 
 class HomePage extends StatefulWidget {
   @override
